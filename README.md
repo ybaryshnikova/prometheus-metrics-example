@@ -15,7 +15,8 @@ source venv/bin/activate
 
 ### Running the app
 ```commandline
-pip install -r /app/requirements.txt
+cd prometheus-metrics-example
+pip install -r requirements.txt
 mkdir tmp
 export prometheus_multiproc_dir=tmp
 gunicorn -c config.py -b 0.0.0.0:8000 server:application

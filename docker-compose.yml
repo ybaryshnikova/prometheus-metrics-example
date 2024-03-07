@@ -6,7 +6,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image:
-      flipstone42/k8s-prometheus-custom-scaling:latest
+#    image:
+#      flipstone42/k8s-prometheus-custom-scaling:latest
     ports:
       - "8000:8000"

@@ -22,18 +22,24 @@ def count_clicks():
 
 # Gauge metric example
 # Define the gauge metric
-current_value_gauge = Gauge('demo_clicks_gauge', 'Gauge metric example')
+@application.route('/gauge', methods=['POST'])
+@metrics.gauge('demo_clicks_gauge', 'Gauge duration')
+def gauge():
+    return {}
+
+
+current_value_gauge = Gauge('demo_clicks', 'Gauge metric example')
 
 
 @application.route("/increase-gauge-value", methods=["POST"])
 def increase_value():
-    current_value_gauge.inc()  # Decrease gauge by 1
+    current_value_gauge.inc()
     return {}
 
 
 @application.route("/decrease-gauge-value", methods=["POST"])
 def decrease_value():
-    current_value_gauge.dec()  # Decrease gauge by 1
+    current_value_gauge.dec()
     return {}
 
 
@@ -50,3 +56,11 @@ def histogram():
     return {}
 
 
+# Summary metric example
+@application.route("/summary", methods=["POST"])
+@metrics.summary('demo_seconds_summary', 'Summary of button click processing durations in seconds')
+def summary():
+    processing_time = random.uniform(0.1, 2.0)  # Adjust the range as needed
+    time.sleep(processing_time)
+
+    return {}
