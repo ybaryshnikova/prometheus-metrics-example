@@ -22,6 +22,17 @@ export prometheus_multiproc_dir=tmp
 gunicorn -c config.py -b 0.0.0.0:8000 server:application
 ```
 
+#### Docker
+```commandline
+docker build -t prometheus-metrics-example .
+docker run -p 8000:8000 prometheus-metrics-example
+```
+
+#### Docker Compose
+```commandline
+docker-compose up
+```
+
 ### Deactivate the venv
 ```commandline
 deactivate

@@ -5,7 +5,7 @@ import random
 from prometheus_client import Gauge
 
 application = Flask(__name__, static_folder="./public", template_folder="./templates")
-metrics = GunicornInternalPrometheusMetrics(application, defaults_enabled=False)
+metrics = GunicornInternalPrometheusMetrics(application, export_defaults=False)
 
 
 @application.route("/")
@@ -22,25 +22,28 @@ def count_clicks():
 
 # Gauge metric example
 # Define the gauge metric
+current_value_gauge = Gauge('demo_request_duration_gauge', 'Gauge metric example')
+
+
 @application.route('/gauge', methods=['POST'])
-@metrics.gauge('demo_clicks_gauge', 'Gauge duration')
 def gauge():
-    return {}
+    # Start time
+    start_time = time.time()
 
+    # Simulate some processing or just wait for the request handling
+    time.sleep(random.uniform(0.1, 0.5))  # Simulating processing time
 
-current_value_gauge = Gauge('demo_clicks', 'Gauge metric example')
+    # End time
+    end_time = time.time()
 
+    # Calculate request duration
+    duration = end_time - start_time
 
-@application.route("/increase-gauge-value", methods=["POST"])
-def increase_value():
-    current_value_gauge.inc()
-    return {}
+    # Set the gauge to the duration of this request
+    current_value_gauge.set(duration)
 
-
-@application.route("/decrease-gauge-value", methods=["POST"])
-def decrease_value():
-    current_value_gauge.dec()
-    return {}
+    # Return response with the measured duration
+    return {'status': 'success', 'request_duration': duration}, 200
 
 
 # Histogram metric example
