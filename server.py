@@ -8,11 +8,6 @@ application = Flask(__name__, static_folder="./public", template_folder="./templ
 metrics = GunicornInternalPrometheusMetrics(application, export_defaults=False)
 
 
-@application.route("/")
-def index():
-    return render_template("index.html")
-
-
 # Counter metric example
 @application.route("/count", methods=["POST"])
 @metrics.counter("demo_clicks_counter", "Number of button clicks by user")

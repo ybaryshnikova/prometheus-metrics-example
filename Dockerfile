@@ -4,8 +4,6 @@ COPY . /app
 WORKDIR /app
 
 RUN pip install -r requirements.txt
-#RUN npm install --prefix /app/demo_app/src --no-package-lock
-#RUN npm run-script build --prefix /app/demo_app/src
 
 ENV prometheus_multiproc_dir /tmp
 EXPOSE 8000
